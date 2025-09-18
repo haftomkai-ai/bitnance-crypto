@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convert</title>
+  <script src="wallet.js"></script>
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { width: 100%; padding: 10px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc; }
+    button { background: #007bff; color: white; border: none; cursor: pointer; }
+    button:hover { background: #0056b3; }
+  </style>
+</head>
+<body>
+  <h2>Convert</h2>
+  <input type="number" id="fromAmount" placeholder="">
+  <input type="text" id="toAmount" placeholder="To (USDT)" readonly>
+  <p>Fee: 0.05%</p>
+  <button onclick="alert('Converted!')">Confirm</button>
+  <section>
+    You can’t swap one cryptocurrency directly for another. You must first convert it into USDT, and then use USDT to exchange for your desired cryptocurrency.
+  </section>
+  <button onclick="location.href='wallet.html'" class="btn-home">Back to Wallet</button>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const symbol = urlParams.get("coin");
+    const uid = getOrCreateUID();
+    const balances = getUserBalances(uid);
+
+    document.getElementById("fromAmount").placeholder = "From (" + symbol + ")";
+
+    document.getElementById("fromAmount").addEventListener("input", (e) => {
+      const amount = parseFloat(e.target.value) || 0;
+      const usdtValue = amount * 20000; // fake rate
+      document.getElementById("toAmount").value = usdtValue.toFixed(2) + " USDT";
+    });
+  </script>
+</body>
+</html>

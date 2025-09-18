@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bitnance - Two Factor Authentication</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 30px auto;
+      max-width: 400px;
+    }
+
+    .card {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      color: #fff;
+    }
+
+    .card h2 {
+      margin-bottom: 20px;
+    }
+
+    .qr-code {
+      margin-bottom: 20px;
+    }
+
+    #walletAddress {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      background: #2e2e2e;
+      border: 1px solid #555;
+      border-radius: 5px;
+      color: #0f0;
+      font-family: monospace;
+      resize: none;
+    }
+
+    .code-inputs {
+      display: flex;
+      justify-content: space-between;
+      gap: 5px;
+      margin-bottom: 20px;
+    }
+
+    .code-inputs input {
+      width: 40px;
+      height: 50px;
+      font-size: 24px;
+      text-align: center;
+      border-radius: 5px;
+      border: 1px solid #555;
+      background: #2e2e2e;
+      color: #fff;
+    }
+
+    .btn-home {
+      margin-top: 10px;
+      padding: 10px 15px;
+      background: #00ffcc;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="logo">Bitnance</h1>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <nav id="menu" class="menu">
+      <div id="user-uid" style="font-size:12px; font-weight:bold; color:#00ffcc; margin-bottom:8px; cursor:pointer; text-align:left;">UID: Loading...</div>
+      <div id="copy-status" style="font-size:11px; color:lime; display:none;">Copied ✅</div>
+      <a href="wallet.html"><i class="fa-solid fa-wallet"></i> Wallet</a>
+      <a href="transactions.html"><i class="fa-solid fa-arrow-right-arrow-left"></i> Transactions</a>
+      <a href="contracts.html"><i class="fa-solid fa-file-contract"></i> Contracts</a>
+      <a href="settings.html"><i class="fa-solid fa-gear"></i> Settings</a>
+      <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Get Authenticator for Connecting</h2>
+
+      <div class="qr-code">
+        <canvas id="qrCanvas"></canvas>
+      </div>
+
+      <textarea id="walletAddress" readonly></textarea>
+
+      <div>
+        <p>Enter Code:</p>
+        <div class="code-inputs">
+          <input type="text" maxlength="1" id="code1">
+          <input type="text" maxlength="1" id="code2">
+          <input type="text" maxlength="1" id="code3">
+          <input type="text" maxlength="1" id="code4">
+          <input type="text" maxlength="1" id="code5">
+          <input type="text" maxlength="1" id="code6">
+        </div>
+      </div>
+    </div>
+
+    <button onclick="location.href='settings.html'" class="btn-home">⬅ Back to Settings</button>
+  </main>
+
+  <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    // UID click-to-copy logic
+    function getOrCreateUID() {
+      let uid = localStorage.getItem("userUID");
+      if (!uid) {
+        uid = Math.floor(100000 + Math.random() * 900000).toString();
+        localStorage.setItem("userUID", uid);
+      }
+      return uid;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // UID
+      const uidElement = document.getElementById("user-uid");
+      const copyStatus = document.getElementById("copy-status");
+      const uid = getOrCreateUID();
+      uidElement.textContent = "UID: " + uid;
+      uidElement.addEventListener("click", () => {
+        navigator.clipboard.writeText(uid).then(() => {
+          copyStatus.style.display = "block";
+          setTimeout(() => copyStatus.style.display = "none", 1500);
+        });
+      });
+
+      // Generate QR Code
+      const qrCanvas = document.getElementById("qrCanvas");
+      const secret = "otpauth://totp/Bitnance:" + uid + "?secret=" + uid + "&issuer=Bitnance";
+      QRCode.toCanvas(qrCanvas, secret, { width: 200 }, function (error) {
+        if (error) console.error(error);
+      });
+
+      // Generate wallet address
+      const walletAddress = document.getElementById("walletAddress");
+      walletAddress.value = "0x" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+      // 2FA code inputs auto-focus
+      const inputs = document.querySelectorAll(".code-inputs input");
+      inputs.forEach((input, i) => {
+        input.addEventListener("input", () => {
+          if (input.value.length > 0 && i < inputs.length - 1) {
+            inputs[i + 1].focus();
+          }
+        });
+      });
+
+      // Pop-up on first field click
+      const firstInput = document.getElementById("code1");
+      firstInput.addEventListener("click", () => {
+        alert("Enter the 6-digit code from your authenticator app.");
+      });
+    });
+  </script>
+</body>
+</html>

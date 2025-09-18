@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Receive</title>
+  <script src="wallet.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .header { display: flex; justify-content: space-between; align-items: center; }
+    .header img { width: 40px; height: 40px; }
+    textarea { width: 100%; height: 60px; margin-top: 10px; }
+    button { padding: 10px; margin-top: 8px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; }
+    button:hover { background: #0056b3; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img id="coinLogo" src="" alt="coin">
+    <div>
+      <div id="balance"></div>
+      <div id="usdValue"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Receive</h3>
+    <p id="network"></p>
+    <div id="qrcode"></div>
+    <textarea id="walletAddress" readonly></textarea>
+    <button onclick="navigator.clipboard.writeText(document.getElementById('walletAddress').value)">Copy Address</button>
+    <button onclick="location.href='wallet.html'" class="btn-home">Back to Wallet</button>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const symbol = urlParams.get("coin");
+    const uid = getOrCreateUID();
+    const balances = getUserBalances(uid);
+
+    const networks = {
+      BTC: "OMNI",
+      ETH: "ERC20",
+      SOL: "Solana",
+      ETC: "ERC20",
+      TON: "TON",
+      XRP: "XRP Ledger",
+      BCH: "BCH",
+      DOGE: "Dogecoin",
+      TRUMP: "Custom"
+    };
+
+    const walletAddress = symbol + "_ADDR_" + uid;
+
+    document.getElementById("coinLogo").src = coins[symbol].logo;
+    document.getElementById("balance").textContent = balances[symbol] + " " + symbol;
+    document.getElementById("usdValue").textContent = "$" + (balances[symbol] * 20000).toFixed(2);
+    document.getElementById("network").textContent = "Network: " + networks[symbol];
+    document.getElementById("walletAddress").value = walletAddress;
+
+    QRCode.toCanvas(document.getElementById("qrcode"), walletAddress, function (error) {
+      if (error) console.error(error);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bitnance - Transactions</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1 class="logo">Bitnance</h1>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <nav id="menu" class="menu">
+      <a href="wallet.html">Wallet</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="contracts.html">Contracts</a>
+      <a href="settings.html">Settings</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Transactions</h2>
+      <label for="deliveryTime">Choose delivery time:</label>
+      <select id="deliveryTime">
+        <option value="5">5 seconds</option>
+        <option value="10">10 seconds</option>
+        <option value="30">30 seconds</option>
+        <option value="60">1 minute</option>
+        <option value="3600">1 hour</option>
+        <option value="86400">1 day</option>
+      </select>
+      <div class="buttons">
+        <button id="buyLong">Buy Long</button>
+        <button id="buyShort">Buy Short</button>
+      </div>
+    </div>
+    <button onclick="location.href='index.html'" class="btn-home">🏠 Back to Homepage</button>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+  </script>
+</body>
+</html>

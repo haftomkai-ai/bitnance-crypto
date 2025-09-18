@@ -1,0 +1,572 @@
+/* =======================
+   Global Styles
+======================= */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background: linear-gradient(135deg, #0d1117, #161b22);
+  color: #e6edf3;
+  transition: background 0.5s, color 0.5s;
+}
+
+/* Slideshow container: to half of window */
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+h1 {
+  text-align: center;
+  padding: 20px;
+  color: #58a6ff;
+  text-shadow: 0 0 10px rgba(88,166,255,0.8);
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(-20px);}
+  100% { opacity: 1; transform: translateY(0);}
+}
+
+/* =======================
+   Navbar
+======================= */
+nav {
+  background: #161b22;
+  padding: 15px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #c9d1d9;
+  font-weight: bold;
+  position: relative;
+  transition: color 0.3s;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #58a6ff;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: #58a6ff;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* =======================
+   Card
+======================= */
+.card {
+  background: rgba(22,27,34,0.95);
+  border-radius: 15px;
+  padding: 25px;
+  margin: 25px auto;
+  max-width: 650px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+  transition: transform 0.3s, box-shadow 0.3s;
+  backdrop-filter: blur(5px);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.7);
+}
+
+/* =======================
+   Buttons
+======================= */
+button {
+  background: linear-gradient(90deg, #238636, #2ea043);
+  border: none;
+  padding: 14px 26px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+button:hover {
+  background: linear-gradient(90deg, #2ea043, #238636);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  animation: pulseBtn 1s infinite;
+}
+
+button:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+@keyframes pulseBtn {
+  0%, 100% { transform: scale(1.05);}
+  50% { transform: scale(1.1);}
+}
+
+/* =======================
+   Sections
+======================= */
+section {
+  padding: 30px 20px;
+  max-width: 800px;
+  margin: 30px auto;
+  text-align: center;
+  animation: fadeIn 1.2s ease-in;
+}
+
+/* =======================
+   Market Data
+======================= */
+#marketData {
+  font-size: 22px;
+  text-align: center;
+  padding: 20px;
+  color: #f0f6fc;
+  background: rgba(8,12,16,0.7);
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.03); opacity: 0.85; }
+}
+
+/* =======================
+   Lists in Settings
+======================= */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 12px 0;
+  margin: 8px 0;
+  background: rgba(8,12,16,0.7);
+  border-radius: 10px;
+  transition: background 0.3s, transform 0.3s;
+}
+
+ul li:hover {
+  background: rgba(8,12,16,0.9);
+  transform: translateX(5px);
+}
+
+/* =======================
+   Wallet Info Glow
+======================= */
+#walletInfo {
+  font-size: 18px;
+  background: rgba(8,12,16,0.6);
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px #58a6ff;
+  transition: box-shadow 0.5s ease;
+}
+
+#walletInfo:hover {
+  box-shadow: 0 0 25px #58a6ff;
+}
+
+/* =======================
+   Owner Wallet Gradient
+======================= */
+#ownerWallet {
+  font-weight: bold;
+  font-family: monospace;
+  background: linear-gradient(90deg, #238636, #2ea043, #58a6ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 20px;
+  padding: 10px;
+  display: inline-block;
+}
+
+/* ======================
+   Dropdown Menu Styling
+   ====================== */
+select {
+  padding: 10px 14px;
+  margin: 12px 0;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 2px solid #444;
+  background: linear-gradient(135deg, #1e1e2f, #2d2d44);
+  color: #fff;
+  outline: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  appearance: none; /* removes default browser arrow */
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px 16px;
+}
+
+/* Hover effect */
+select:hover {
+  border-color: #6c5ce7;
+  box-shadow: 0 0 12px rgba(108, 92, 231, 0.5);
+}
+
+/* Focus effect */
+select:focus {
+  border-color: #00cec9;
+  box-shadow: 0 0 15px rgba(0, 206, 201, 0.6);
+}
+
+/* Dropdown Options */
+select option {
+  background: #2d2d44;
+  color: #fff;
+  padding: 10px;
+}
+
+/* ======================
+   Back to Home Button
+   ====================== */
+.back-home-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #6c5ce7, #00cec9);
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.back-home-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(108, 92, 231, 0.7);
+}
+/* Hamburger button */
+.hamburger {
+  font-size: 28px;
+  cursor: pointer;
+  color: white;
+  position: absolute;
+  right: 80px;
+  top: 80px;
+  z-index: 1100;
+}
+
+/* Hidden menu */
+.menu {
+  display: none;
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  flex-direction: column;
+  animation: slideDown 0.3s ease forwards;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  display: block;
+  transition: background 0.2s;
+}
+
+.menu a:hover {
+  background: #2a9d8f;
+  border-radius: 5px;
+}
+
+/* Animation for smooth dropdown */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.slideshow-container {
+  position: relative;
+  width: 100%;
+  height: 50vh; /* only half of screen */
+  z-index: 1;
+  overflow: hidden;
+}
+
+.slide {
+  display: none;
+  height: 100%;
+  width: 100%;
+  color: #fff;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%; /* half screen */
+  object-fit: cover;
+  top: 100px;
+  animation: slideIn 2s ease;
+  border-radius: 50% / 20%;
+}
+
+.slogan {
+  position: absolute;
+  top: 215px; /* moved up to fit inside half screen */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 8px 16px;
+  border-radius: 6px;
+  z-index: 2;
+}
+
+  /* Logo styling */
+.logo {
+  position: fixed;
+  top: 10px;
+  left: 20px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #00ffcc;
+  z-index: 1000; /* stay above slideshow and other elements */
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  cursor: pointer;
+}
+
+.logo:hover {
+  color: #ffffff;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+
+/* Hamburger menu */
+.hamburger {
+  position: fixed;
+  top: 15px;
+  right: 30px;
+  font-size: 2rem;
+  color: #00ffcc;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+/* Menu items */
+.menu {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  flex-direction: column;
+  background: rgba(0,0,0,0.8);
+  padding: 10px;
+  border-radius: 8px;
+  display: none;
+  z-index: 999;
+}
+
+/* Slideshow container only covers top half */
+.slideshow-container {
+  position: relative;
+  max-width: 100%;
+  height: 50vh; /* half page */
+  margin: 0 auto;
+  overflow: hidden;
+  z-index: 1; /* behind logo and menu */
+}
+
+/* main content - second half of window */
+main {
+  margin-top: 50px; /* make space below slideshow if needed */
+  position: relative;
+  height: 50vh;
+  padding: 20px;
+  z-index: 2; /* above slideshow */
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* stay above slideshow and other elements */
+
+.btn-menu {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 6px 0;
+  font-size: 16px;
+  background-color: #00ffcc;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.btn-menu:hover {
+  background-color: #00e6b8;
+}
+
+/* General form container */
+.card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Labels */
+.card form label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: #00ffcc;
+}
+
+/* Text fields and dropdowns */
+.card form input[type="text"],
+.card form select,
+.card form input[type="file"] {
+  padding: 10px;
+  border: 1px solid #00ffcc;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Focus effect */
+.card form input[type="text"]:focus,
+.card form select:focus,
+.card form input[type="file"]:focus {
+  border-color: #00e6b8;
+  box-shadow: 0 0 5px #00e6b8;
+}
+
+/* Submit button */
+.btn-submit {
+  padding: 12px;
+  background-color: #00ffcc;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+  background-color: #00e6b8;
+}
+
+/* Back button */
+.btn-home {
+  margin-top: 12px;
+  padding: 10px 15px;
+  background-color: #00ffcc;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-home:hover {
+  background-color: #00e6b8;
+}
+
+.market-table th,
+.market-table td {
+  padding: 12px 15px; /* top-bottom 12px, left-right 15px */
+  text-align: left;
+  vertical-align: middle;
+}
+
+.market-table th {
+ /* optional header styling */
+  color: #00ffcc;
+}
+
+.market-table td img {
+  margin-right: 8px; /* space between coin logo and name */
+}
+
+.market-table {
+  border-collapse: separate;
+  border-spacing: 15px 0; /* horizontal gap between columns */
+  width: 100%;
+}
+
+.wallet-item {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 12px;
+  margin: 10px 0;
+  background: #fafafa;
+  cursor: pointer;
+}
+
+.wallet-header {
+  display: flex;
+  align-items: center;
+}
+
+.coin-logo {
+  width: 32px;
+  height: 32px;
+  margin-right: 12px;
+}
+
+.wallet-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.wallet-actions {
+  margin-top: 10px;
+  gap: 10px;
+  display: flex;
+}
+
+.wallet-actions button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #007bff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.wallet-actions button:hover {
+  background: #0056b3;
+}
+

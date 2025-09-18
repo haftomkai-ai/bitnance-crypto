@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitnance - Homepage</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<!-- Fixed logo and menu -->
+<div class="logo">Bitnance</div>
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+<nav id="menu" class="menu">
+  <div id="user-uid" style="font-size:12px; text-align:left; font-weight:bold; color:#00ffcc; margin-bottom:8px; cursor:pointer;">UID: Loading...</div>
+  <div id="copy-status" style="font-size:11px; color:lime; display:none;">Copied ✅</div>
+  <a href="wallet.html">💼 Wallet</a>
+  <a href="transactions.html">Transactions</a>
+  <a href="contracts.html">Contracts</a>
+  <a href="settings.html">Settings</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+
+<!-- Slideshow -->
+<section class="top-half">
+  <div class="slideshow-container">
+    <div class="slide fade"><img src="crypto1.jpg" alt="Crypto 1"><div class="slogan">Empowering Your Crypto Journey</div></div>
+    <div class="slide fade"><img src="crypto2.jpg" alt="Crypto 2"><div class="slogan">Trade Smarter with Bitnance</div></div>
+    <div class="slide fade"><img src="crypto3.jpg" alt="Crypto 3"><div class="slogan">Secure. Fast. Reliable.</div></div>
+  </div>
+</section>
+
+<!-- Markets -->
+<section class="bottom-half">
+  <header><h1>Markets</h1></header>
+  <main>
+    <div id="market-container" class="card">
+      <table class="market-table">
+        <thead>
+          <tr>
+            <th>Coin</th>
+            <!--<th>Balance</th>-->
+            <th>Price (USD)</th>
+            <!--<th>Value (USD)</th>-->
+            <th>24h Change</th>
+            <th>Trend</th>
+          </tr>
+        </thead>
+        <tbody id="price-table">
+        </tbody>
+      </table>
+    </div>
+  </main>
+</section>
+<!-- News -->
+
+<script src="app.js"></script>
+<script>
+let slideIndex = 0;
+function showSlides() {
+  const slides = document.getElementsByClassName("slide");
+  for(let i=0;i<slides.length;i++) slides[i].style.display="none";
+  slideIndex++; if(slideIndex>slides.length) slideIndex=1;
+  slides[slideIndex-1].style.display="block";
+  setTimeout(showSlides,2000);
+}
+showSlides();
+
+function toggleMenu() {
+  const menu=document.getElementById('menu');
+  menu.style.display = (menu.style.display==='flex')?'none':'flex';
+}
+</script>
+</body>
+</html>

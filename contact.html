@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bitnance - Contact</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1 class="logo">Bitnance</h1>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <nav id="menu" class="menu">
+      <a href="wallet.html">Wallet</a>
+      <a href="transactions.html">Transactions</a>
+      <a href="contracts.html">Contracts</a>
+      <a href="settings.html">Settings</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Contact Us</h2>
+      <p>Email: support@bitnance.com</p>
+      <p>Telegram: @bitnance_support</p>
+    </div>
+    <button onclick="location.href='index.html'" class="btn-home">🏠 Back to Homepage</button>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+  </script>
+</body>
+</html>

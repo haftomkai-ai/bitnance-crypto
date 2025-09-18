@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wallets</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #walletContainer {
+      max-width: 650px;
+      margin: auto;
+    }
+    .wallet-card {
+      background-color: whitesmoke;
+      border-radius: 40px;
+      margin-bottom: 15px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+    .wallet-card:hover {
+      transform: scale(1.01);
+    }
+    .wallet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .wallet-left {
+      display: flex;
+      align-items: center;
+    }
+    .wallet-left img {
+      width: 36px;
+      height: 36px;
+      margin-right: 10px;
+    }
+    .wallet-name {
+      font-weight: bold;
+      color: black;
+      font-size: 1em;
+    }
+    .wallet-right {
+      text-align: right;
+    }
+    .wallet-balance {
+      font-weight: bold;
+      color: #222;
+    }
+    .wallet-value {
+      font-size: 0.9em;
+      color: #007bff;
+    }
+    .wallet-actions {
+      display: none;
+      margin-top: 15px;
+      text-align: center;
+    }
+    .wallet-actions button {
+      margin: 5px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      background: #007bff;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .wallet-actions button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>My Wallets</h1>
+  <div id="walletContainer"></div>
+  <button onclick="location.href='index.html'" class="btn-home">🏠 Back to Homepage</button>
+  <!-- Wallet.js contains coins and helper functions -->
+  <script src="wallet.js"></script>
+  <script>
+    const walletDisplayNames = {
+      BTC: "BTC Wallet",
+      ETH: "ETH Wallet",
+      SOL: "SOL Wallet",
+      ETC: "ETC Wallet",
+      TON: "TON Wallet",
+      XRP: "XRP Wallet",
+      BCH: "BCH Wallet",
+      DOGE: "DOGE Wallet",
+      TRUMP: "TRUMP Wallet"
+    };
+
+    const binanceSymbols = {
+      BTC: "BTCUSDT",
+      ETH: "ETHUSDT",
+      SOL: "SOLUSDT",
+      ETC: "ETCUSDT",
+      TON: "TONUSDT",
+      XRP: "XRPUSDT",
+      BCH: "BCHUSDT",
+      DOGE: "DOGEUSDT",
+      TRUMP: null
+    };
+
+    let prices = {}; 
+    const uid = getOrCreateUID();
+
+    // Fetch prices from Binance
+    async function fetchPrices() {
+      for (let symbol in binanceSymbols) {
+        const binanceSymbol = binanceSymbols[symbol];
+        if (!binanceSymbol) {
+          prices[symbol] = 0;
+          continue;
+        }
+        try {
+          const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${binanceSymbol}`);
+          const data = await res.json();
+          prices[symbol] = parseFloat(data.price);
+        } catch (err) {
+          prices[symbol] = 0;
+        }
+      }
+    }
+
+    // Update USD value for a coin
+    function updateWalletValue(symbol) {
+      const balance = getUserBalances(uid)[symbol] || 0;
+      const valueEl = document.getElementById(`value-${symbol}`);
+      if (valueEl) valueEl.textContent = `$${(balance * (prices[symbol] || 0)).toFixed(2)}`;
+    }
+
+    // Render wallets after prices are fetched
+    async function renderWallets() {
+      const walletContainer = document.getElementById("walletContainer");
+      walletContainer.innerHTML = "";
+
+      await fetchPrices(); // Wait for prices first
+      const balances = getUserBalances(uid);
+
+      Object.keys(coins).forEach(symbol => {
+        const coin = coins[symbol];
+        const balance = balances[symbol] || 0;
+        const usdValue = (balance * (prices[symbol] || 0)).toFixed(2);
+
+        const card = document.createElement("div");
+        card.className = "wallet-card";
+
+        card.innerHTML = `
+          <div class="wallet-header">
+            <div class="wallet-left">
+              <img src="${coin.logo}" alt="${coin.name}">
+              <div class="wallet-name">${walletDisplayNames[symbol]}</div>
+            </div>
+            <div class="wallet-right">
+              <div class="wallet-balance" id="balance-${symbol}">${balance} ${symbol}</div>
+              <div class="wallet-value" id="value-${symbol}">$${usdValue}</div>
+            </div>
+          </div>
+          <div class="wallet-actions">
+  <button onclick="location.href='send.html?coin=${symbol}'">Send</button>
+  <button onclick="location.href='receive.html?coin=${symbol}'">Receive</button>
+  <button onclick="location.href='convert.html?coin=${symbol}'">Convert</button>
+</div>
+
+        `;
+
+        card.querySelector(".wallet-header").addEventListener("click", () => {
+          const actions = card.querySelector(".wallet-actions");
+          actions.style.display = actions.style.display === "block" ? "none" : "block";
+        });
+
+        walletContainer.appendChild(card);
+      });
+    }
+
+    // Refresh USD values without re-rendering all wallets
+    async function refreshPrices() {
+      await fetchPrices();
+      Object.keys(coins).forEach(symbol => updateWalletValue(symbol));
+    }
+
+    // Initial render
+    document.addEventListener("DOMContentLoaded", async () => {
+      await renderWallets();
+      setInterval(refreshPrices, 30000); // Refresh every 30s
+    });
+    
+  </script>
+</body>
+</html>

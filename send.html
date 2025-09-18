@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="wallet.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .header { display: flex; justify-content: space-between; align-items: center; }
+    .header img { width: 40px; height: 40px; }
+    .section { margin-top: 20px; }
+    input, button {
+      width: 100%;
+      padding: 10px 40px 10px 40px; /* extra left padding for logo */
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background-position: 10px center; /* place logo left */
+      background-repeat: no-repeat;
+      background-size: 20px 20px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover { background: #0056b3; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img id="coinLogo" src="" alt="coin">
+    <div>
+      <div id="balance"></div>
+      <div id="usdValue"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Withdrawal</h3>
+    <p id="network"></p>
+    <input type="text" placeholder="Receiving Address">
+    <!-- Logo will appear inside here -->
+    <input type="text" id="amountField" placeholder="Amount">
+    <button onclick="alert('Sent!')">Send Now</button>
+    <p>For your security, never send funds to unknown individuals.</p>
+    <button onclick="location.href='wallet.html'" class="btn-home">Back to Wallet</button>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const symbol = urlParams.get("coin");
+    const uid = getOrCreateUID();
+    const balances = getUserBalances(uid);
+
+    // Blockchain networks mapping
+    const networks = {
+      BTC: "OMNI",
+      ETH: "ERC20",
+      SOL: "Solana",
+      ETC: "ERC20",
+      TON: "TON",
+      XRP: "XRP Ledger",
+      BCH: "BCH",
+      DOGE: "Dogecoin",
+      TRUMP: "Custom"
+    };
+
+    document.getElementById("coinLogo").src = coins[symbol].logo;
+    document.getElementById("balance").textContent = balances[symbol] + " " + symbol;
+    document.getElementById("usdValue").textContent = "$" + (balances[symbol] * 20000).toFixed(2); // placeholder
+    document.getElementById("network").textContent = "Network: " + networks[symbol];
+
+    // Set coin logo inside input field
+    const amountField = document.getElementById("amountField");
+    amountField.style.backgroundImage = `url(${coins[symbol].logo})`;
+  </script>
+</body>
+</html>
